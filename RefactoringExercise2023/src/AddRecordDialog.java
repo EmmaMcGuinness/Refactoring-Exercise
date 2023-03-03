@@ -51,7 +51,43 @@ public class AddRecordDialog extends JDialog implements ActionListener {
 		empDetails = new JPanel(new MigLayout());
 		buttonPanel = new JPanel();
 		JTextField field;
+		
+		//Add employee details to container Labels and fields 
+		employeeDetails(empDetails);
 
+		buttonPanel.add(save = new JButton("Save"));
+		save.addActionListener(this);
+		save.requestFocus();
+		buttonPanel.add(cancel = new JButton("Cancel"));
+		cancel.addActionListener(this);
+
+		empDetails.add(buttonPanel, "span 2,growx, pushx,wrap");
+		// loop through all panel components and add fonts and listeners
+		addFontsAndListeners(empDetails);
+		idField.setText(Integer.toString(this.parent.getNextFreeId()));
+		return empDetails;
+	}
+
+	private void addFontsAndListeners(JPanel empDetails) {
+		JTextField field;
+		// loop through all panel components and add fonts and listeners
+		for (int i = 0; i < empDetails.getComponentCount(); i++) {
+			empDetails.getComponent(i).setFont(this.parent.font1);
+			if (empDetails.getComponent(i) instanceof JComboBox) {
+				empDetails.getComponent(i).setBackground(Color.WHITE);
+			}// end if
+			else if(empDetails.getComponent(i) instanceof JTextField){
+				field = (JTextField) empDetails.getComponent(i);
+				if(field == ppsField)
+					field.setDocument(new JTextFieldLimit(9));
+				else
+				field.setDocument(new JTextFieldLimit(20));
+			}// end else if
+		}// end for
+	}
+
+	private void employeeDetails(JPanel empDetails) {
+		//Add employee details to container Labels and fields 
 		empDetails.setBorder(BorderFactory.createTitledBorder("Employee Details"));
 
 		empDetails.add(new JLabel("ID:"), "growx, pushx");
@@ -79,30 +115,6 @@ public class AddRecordDialog extends JDialog implements ActionListener {
 
 		empDetails.add(new JLabel("Full Time:"), "growx, pushx");
 		empDetails.add(fullTimeCombo = new JComboBox<String>(this.parent.fullTime), "growx, pushx, wrap");
-
-		buttonPanel.add(save = new JButton("Save"));
-		save.addActionListener(this);
-		save.requestFocus();
-		buttonPanel.add(cancel = new JButton("Cancel"));
-		cancel.addActionListener(this);
-
-		empDetails.add(buttonPanel, "span 2,growx, pushx,wrap");
-		// loop through all panel components and add fonts and listeners
-		for (int i = 0; i < empDetails.getComponentCount(); i++) {
-			empDetails.getComponent(i).setFont(this.parent.font1);
-			if (empDetails.getComponent(i) instanceof JComboBox) {
-				empDetails.getComponent(i).setBackground(Color.WHITE);
-			}// end if
-			else if(empDetails.getComponent(i) instanceof JTextField){
-				field = (JTextField) empDetails.getComponent(i);
-				if(field == ppsField)
-					field.setDocument(new JTextFieldLimit(9));
-				else
-				field.setDocument(new JTextFieldLimit(20));
-			}// end else if
-		}// end for
-		idField.setText(Integer.toString(this.parent.getNextFreeId()));
-		return empDetails;
 	}
 
 	// add record to file

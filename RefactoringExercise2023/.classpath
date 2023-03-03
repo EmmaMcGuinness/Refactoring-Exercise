@@ -7,5 +7,6 @@
 		</attributes>
 	</classpathentry>
 	<classpathentry kind="lib" path="C:/Users/emmam/Downloads/jar_files/miglayout-swing-11.0.jar"/>
+	<classpathentry kind="lib" path="C:/Users/emmam/Downloads/jar_files/miglayout-core-11.0.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>
