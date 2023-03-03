@@ -65,26 +65,9 @@ public class EmployeeSummaryDialog extends JDialog implements ActionListener {
 		centerRenderer.setHorizontalAlignment(JLabel.CENTER);
 		leftRenderer.setHorizontalAlignment(JLabel.LEFT);
 		// add headers
-		for (int i = 0; i < headerName.length; i++) {
-			header.addElement(headerName[i]);
-		}// end for
+		addHeader(header, headerName);
 		// construct table and choose table model for each column
-		tableModel = new DefaultTableModel(allEmployees, header) {
-			public Class getColumnClass(int c) {
-				switch (c) {
-				case 0:
-					return Integer.class;
-				case 4:
-					return Character.class;
-				case 6:
-					return Double.class;
-				case 7:
-					return Boolean.class;
-				default:
-					return String.class;
-				}// end switch
-			}// end getColumnClass
-		};
+		tableModel = createTable(header);
 
 		employeeTable = new JTable(tableModel);
 		// add header names to table
@@ -92,6 +75,12 @@ public class EmployeeSummaryDialog extends JDialog implements ActionListener {
 			employeeTable.getColumn(headerName[i]).setMinWidth(colWidth[i]);
 		}// end for
 		// set alignments
+		setAlignments(summaryDialog, buttonPanel, employeeTable, centerRenderer, leftRenderer);
+		
+		return summaryDialog;
+	}// end summaryPane
+	private void setAlignments(JPanel summaryDialog, JPanel buttonPanel, JTable employeeTable,
+			DefaultTableCellRenderer centerRenderer, DefaultTableCellRenderer leftRenderer) {
 		employeeTable.getColumnModel().getColumn(0).setCellRenderer(leftRenderer);
 		employeeTable.getColumnModel().getColumn(4).setCellRenderer(centerRenderer);
 		employeeTable.getColumnModel().getColumn(6).setCellRenderer(new DecimalFormatRenderer());
@@ -108,9 +97,32 @@ public class EmployeeSummaryDialog extends JDialog implements ActionListener {
 		summaryDialog.add(buttonPanel,"growx, pushx, wrap");
 		summaryDialog.add(scrollPane,"growx, pushx, wrap");
 		scrollPane.setBorder(BorderFactory.createTitledBorder("Employee Details"));
-		
-		return summaryDialog;
-	}// end summaryPane
+	}
+	private void addHeader(Vector<String> header, String[] headerName) {
+		for (int i = 0; i < headerName.length; i++) {
+			header.addElement(headerName[i]);
+		}// end for
+	}
+	private DefaultTableModel createTable(Vector<String> header) {
+		DefaultTableModel tableModel;
+		tableModel = new DefaultTableModel(this.allEmployees, header) {
+			public Class getColumnClass(int c) {
+				switch (c) {
+				case 0:
+					return Integer.class;
+				case 4:
+					return Character.class;
+				case 6:
+					return Double.class;
+				case 7:
+					return Boolean.class;
+				default:
+					return String.class;
+				}// end switch
+			}// end getColumnClass
+		};
+		return tableModel;
+	}
 
 	public void actionPerformed(ActionEvent e) {
 		if (e.getSource() == back){
