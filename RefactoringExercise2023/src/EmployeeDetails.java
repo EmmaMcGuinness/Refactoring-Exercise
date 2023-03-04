@@ -100,10 +100,7 @@ public class EmployeeDetails extends JFrame implements ActionListener, ItemListe
 		closeMenu = new JMenu("Exit");
 		closeMenu.setMnemonic(KeyEvent.VK_E);
 
-		menuBar.add(fileMenu);
-		menuBar.add(recordMenu);
-		menuBar.add(navigateMenu);
-		menuBar.add(closeMenu);
+		addToMenu(menuBar, fileMenu, recordMenu, navigateMenu, closeMenu);
 
 		fileMenu.add(open = new JMenuItem("Open")).addActionListener(this);
 		open.setMnemonic(KeyEvent.VK_O);
@@ -136,12 +133,23 @@ public class EmployeeDetails extends JFrame implements ActionListener, ItemListe
 		navigateMenu.add(searchBySurname = new JMenuItem("Search by Surname")).addActionListener(this);
 		navigateMenu.add(listAll = new JMenuItem("List all Records")).addActionListener(this);
 
-		closeMenu.add(closeApp = new JMenuItem("Close")).addActionListener(this);
-		closeApp.setMnemonic(KeyEvent.VK_F4);
-		closeApp.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_F4, ActionEvent.CTRL_MASK));
+		closeApp(closeMenu);
 
 		return menuBar;
 	}// end menuBar
+
+	private void closeApp(JMenu closeMenu) {
+		closeMenu.add(closeApp = new JMenuItem("Close")).addActionListener(this);
+		closeApp.setMnemonic(KeyEvent.VK_F4);
+		closeApp.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_F4, ActionEvent.CTRL_MASK));
+	}
+
+	private void addToMenu(JMenuBar menuBar, JMenu fileMenu, JMenu recordMenu, JMenu navigateMenu, JMenu closeMenu) {
+		menuBar.add(fileMenu);
+		menuBar.add(recordMenu);
+		menuBar.add(navigateMenu);
+		menuBar.add(closeMenu);
+	}
 
 	// initialize search panel
 	private JPanel searchPanel() {
@@ -228,30 +236,7 @@ public class EmployeeDetails extends JFrame implements ActionListener, ItemListe
 
 		empDetails.setBorder(BorderFactory.createTitledBorder("Employee Details"));
 
-		empDetails.add(new JLabel("ID:"), "growx, pushx");
-		empDetails.add(idField = new JTextField(20), "growx, pushx, wrap");
-		idField.setEditable(false);
-
-		empDetails.add(new JLabel("PPS Number:"), "growx, pushx");
-		empDetails.add(ppsField = new JTextField(20), "growx, pushx, wrap");
-
-		empDetails.add(new JLabel("Surname:"), "growx, pushx");
-		empDetails.add(surnameField = new JTextField(20), "growx, pushx, wrap");
-
-		empDetails.add(new JLabel("First Name:"), "growx, pushx");
-		empDetails.add(firstNameField = new JTextField(20), "growx, pushx, wrap");
-
-		empDetails.add(new JLabel("Gender:"), "growx, pushx");
-		empDetails.add(genderCombo = new JComboBox<String>(gender), "growx, pushx, wrap");
-
-		empDetails.add(new JLabel("Department:"), "growx, pushx");
-		empDetails.add(departmentCombo = new JComboBox<String>(department), "growx, pushx, wrap");
-
-		empDetails.add(new JLabel("Salary:"), "growx, pushx");
-		empDetails.add(salaryField = new JTextField(20), "growx, pushx, wrap");
-
-		empDetails.add(new JLabel("Full Time:"), "growx, pushx");
-		empDetails.add(fullTimeCombo = new JComboBox<String>(fullTime), "growx, pushx, wrap");
+		addLabels(empDetails);
 
 		buttonPanel.add(saveChange = new JButton("Save"));
 		saveChange.addActionListener(this);
@@ -291,6 +276,33 @@ public class EmployeeDetails extends JFrame implements ActionListener, ItemListe
 		} // end for
 		return empDetails;
 	}// end detailsPanel
+
+	private void addLabels(JPanel empDetails) {
+		empDetails.add(new JLabel("ID:"), "growx, pushx");
+		empDetails.add(idField = new JTextField(20), "growx, pushx, wrap");
+		idField.setEditable(false);
+
+		empDetails.add(new JLabel("PPS Number:"), "growx, pushx");
+		empDetails.add(ppsField = new JTextField(20), "growx, pushx, wrap");
+
+		empDetails.add(new JLabel("Surname:"), "growx, pushx");
+		empDetails.add(surnameField = new JTextField(20), "growx, pushx, wrap");
+
+		empDetails.add(new JLabel("First Name:"), "growx, pushx");
+		empDetails.add(firstNameField = new JTextField(20), "growx, pushx, wrap");
+
+		empDetails.add(new JLabel("Gender:"), "growx, pushx");
+		empDetails.add(genderCombo = new JComboBox<String>(gender), "growx, pushx, wrap");
+
+		empDetails.add(new JLabel("Department:"), "growx, pushx");
+		empDetails.add(departmentCombo = new JComboBox<String>(department), "growx, pushx, wrap");
+
+		empDetails.add(new JLabel("Salary:"), "growx, pushx");
+		empDetails.add(salaryField = new JTextField(20), "growx, pushx, wrap");
+
+		empDetails.add(new JLabel("Full Time:"), "growx, pushx");
+		empDetails.add(fullTimeCombo = new JComboBox<String>(fullTime), "growx, pushx, wrap");
+	}
 
 	// display current Employee details
 	public void displayRecords(Employee thisEmployee) {
