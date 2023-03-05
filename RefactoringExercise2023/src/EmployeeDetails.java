@@ -992,7 +992,9 @@ public class EmployeeDetails extends JFrame implements ActionListener, ItemListe
 
 	// action listener for buttons, text field and menu items
 	public void actionPerformed(ActionEvent e) {
-
+		//Couldn't Get command pattern to work but this would have reduced the size of the if-else statement
+//		 Command command = (Command)e.getSource();
+//		  command.execute();
 		if (e.getSource() == closeApp) {
 			if (checkInput() && !checkForChanges())
 				exitApp();
