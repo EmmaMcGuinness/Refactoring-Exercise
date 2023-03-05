@@ -26,13 +26,13 @@ public class AddRecordDialog extends JDialog implements ActionListener {
 	JTextField idField, ppsField, surnameField, firstNameField, salaryField;
 	JComboBox<String> genderCombo, departmentCombo, fullTimeCombo;
 	JButton save, cancel;
-	EmployeeDetails parent;
+	EmployeeDetails employeeDetails;
 	// constructor for add record dialog
-	public AddRecordDialog(EmployeeDetails parent) {
+	public AddRecordDialog(EmployeeDetails employeeDetails) {
 		setTitle("Add Record");
 		setModal(true);
-		this.parent = parent;
-		this.parent.setEnabled(false);
+		this.employeeDetails = employeeDetails;
+		this.employeeDetails.setEnabled(false);
 		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		
 		JScrollPane scrollPane = new JScrollPane(dialogPane());
@@ -64,7 +64,7 @@ public class AddRecordDialog extends JDialog implements ActionListener {
 		empDetails.add(buttonPanel, "span 2,growx, pushx,wrap");
 		// loop through all panel components and add fonts and listeners
 		addFontsAndListeners(empDetails);
-		idField.setText(Integer.toString(this.parent.getNextFreeId()));
+		idField.setText(Integer.toString(this.employeeDetails.getNextFreeId()));
 		return empDetails;
 	}
 
@@ -72,7 +72,7 @@ public class AddRecordDialog extends JDialog implements ActionListener {
 		JTextField field;
 		// loop through all panel components and add fonts and listeners
 		for (int i = 0; i < empDetails.getComponentCount(); i++) {
-			empDetails.getComponent(i).setFont(this.parent.font1);
+			empDetails.getComponent(i).setFont(this.employeeDetails.font1);
 			if (empDetails.getComponent(i) instanceof JComboBox) {
 				empDetails.getComponent(i).setBackground(Color.WHITE);
 			}// end if
@@ -105,16 +105,16 @@ public class AddRecordDialog extends JDialog implements ActionListener {
 		empDetails.add(firstNameField = new JTextField(20), "growx, pushx, wrap");
 
 		empDetails.add(new JLabel("Gender:"), "growx, pushx");
-		empDetails.add(genderCombo = new JComboBox<String>(this.parent.gender), "growx, pushx, wrap");
+		empDetails.add(genderCombo = new JComboBox<String>(this.employeeDetails.gender), "growx, pushx, wrap");
 
 		empDetails.add(new JLabel("Department:"), "growx, pushx");
-		empDetails.add(departmentCombo = new JComboBox<String>(this.parent.department), "growx, pushx, wrap");
+		empDetails.add(departmentCombo = new JComboBox<String>(this.employeeDetails.department), "growx, pushx, wrap");
 
 		empDetails.add(new JLabel("Salary:"), "growx, pushx");
 		empDetails.add(salaryField = new JTextField(20), "growx, pushx, wrap");
 
 		empDetails.add(new JLabel("Full Time:"), "growx, pushx");
-		empDetails.add(fullTimeCombo = new JComboBox<String>(this.parent.fullTime), "growx, pushx, wrap");
+		empDetails.add(fullTimeCombo = new JComboBox<String>(this.employeeDetails.fullTime), "growx, pushx, wrap");
 	}
 
 	// add record to file
@@ -128,9 +128,9 @@ public class AddRecordDialog extends JDialog implements ActionListener {
 		theEmployee = new Employee(Integer.parseInt(idField.getText()), ppsField.getText().toUpperCase(), surnameField.getText().toUpperCase(),
 				firstNameField.getText().toUpperCase(), genderCombo.getSelectedItem().toString().charAt(0),
 				departmentCombo.getSelectedItem().toString(), Double.parseDouble(salaryField.getText()), fullTime);
-		this.parent.currentEmployee = theEmployee;
-		this.parent.addRecord(theEmployee);
-		this.parent.displayRecords(theEmployee);
+		this.employeeDetails.currentEmployee = theEmployee;
+		this.employeeDetails.addRecord(theEmployee);
+		this.employeeDetails.displayRecords(theEmployee);
 	}
 
 	// check for input in text fields
@@ -141,7 +141,7 @@ public class AddRecordDialog extends JDialog implements ActionListener {
 			ppsField.setBackground(new Color(255, 150, 150));
 			valid = false;
 		}// end if
-		if (this.parent.correctPps(this.ppsField.getText().trim(), -1)) {
+		if (this.employeeDetails.correctPps(this.ppsField.getText().trim(), -1)) {
 			ppsField.setBackground(new Color(255, 150, 150));
 			valid = false;
 		}// end if
@@ -199,7 +199,7 @@ public class AddRecordDialog extends JDialog implements ActionListener {
 			if (checkInput()) {
 				addRecord();// add record to file
 				dispose();// dispose dialog
-				this.parent.changesMade = true;
+				this.employeeDetails.changesMade = true;
 			}// end if
 			// else display message and set text fields to white colour
 			else {
